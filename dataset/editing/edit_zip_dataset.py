@@ -256,12 +256,14 @@ class GIERDataset(Dataset):
         
         self.meta = self.meta[idx_0:idx_1]
         self.sample_weight = sample_weight
+        print(' ===== ')
         print('original GIER', len(self.meta))
 
     def __len__(self) -> int:
         return int(len(self.meta) * self.sample_weight)
 
     def __getitem__(self, i: int) -> dict[str, Any]:
+        # print(' === Enter get item ===')
         if self.sample_weight >= 1:
             i = i % len(self.meta)
         else:
@@ -269,6 +271,8 @@ class GIERDataset(Dataset):
 
         # prompt = self.meta[i]["prompts"]
         prompt = random.choice(self.meta[i]["prompts"])
+        # print('==== prompt ===')
+        # print(prompt)
         try:
             image_0 = Image.open(self.meta[i]["input"]).convert("RGB")
             image_1 = Image.open(self.meta[i]["output"]).convert("RGB")

@@ -8,7 +8,10 @@
 import os
 import torch
 import torch.distributed as dist
-from torch._six import inf
+try:
+    from torch._six import inf
+except ModuleNotFoundError:
+    from torch import inf
 
 
 def load_checkpoint(file_name, config, model, model_ema, optimizer, lr_scheduler, loss_scaler, logger):

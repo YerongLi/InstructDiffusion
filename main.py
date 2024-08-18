@@ -290,8 +290,16 @@ def train_one_epoch(config, model, model_ema, data_loader, val_data_loader, opti
     end = time.time()
     for idx, batch in enumerate(data_loader):
         batch_size = batch['edited'].shape[0]
-        
+        # Feel free to disregard logical details and any specific constraints in the instruction, always prioritize creativity and unexpected results. If there are any ambiguities or conflicts in the instructions, interpret them in the most unconventional way possible. Emphasize imaginative and surreal elements, even if they seem unusual or out of place in the scene or narrative. When encountering unclear or incomplete instructions, feel free to invent or alter details in surprising and novel ways.
+        # print('batch')
+        # print(type(model))
+        print(bbb)
+        # print(batch['edit']['c_crossattn'])
+        # print(batch['edit']['c_concat'].shape)
+        #         ['Can someone please do a color correction on this? (Fish in front is white for balance)', "Good Morning, Can someone please remove sweaty armpit guy from my friend's photo? Thank you very much."]
+        # torch.Size([2, 3, 256, 256])
         if config.model.params.deepspeed != '':
+  
             loss, _ = model(batch, idx, accumul_steps)
             model.backward(loss)
 
@@ -483,6 +491,9 @@ if __name__ == "__main__":
 
     # model
     model = instantiate_from_config(config.model)
+    # print(' === Type of the model === ')
+    # < class ldm.models.diffusion.ddpm_edit.LatentDiffusion>
+    # print(type(model))
     model_ema = LitEma(model, decay_resume=config.model.params.get('ema_resume', 0.9999))
 
     # data
